@@ -36,71 +36,6 @@ public class App {
 	static class I2MConfiguration {
 		public String homeserverHostname;
 		public String botName;
-
-		public String getHomeserverHostname() {
-			return homeserverHostname;
-		}
-
-		public void setHomeserverHostname(final String homeserverHostname) {
-			this.homeserverHostname = homeserverHostname;
-		}
-
-		public String getBotName() {
-			return botName;
-		}
-
-		public void setBotName(final String botName) {
-			this.botName = botName;
-		}
-
-		public String getBotPassword() {
-			return botPassword;
-		}
-
-		public void setBotPassword(final String botPassword) {
-			this.botPassword = botPassword;
-		}
-
-		public String getIrcUserName() {
-			return ircUserName;
-		}
-
-		public void setIrcUserName(final String ircUserName) {
-			this.ircUserName = ircUserName;
-		}
-
-		public String getIrcHostName() {
-			return ircHostName;
-		}
-
-		public void setIrcHostName(final String ircHostName) {
-			this.ircHostName = ircHostName;
-		}
-
-		public String getChannelToJoin() {
-			return channelToJoin;
-		}
-
-		public void setChannelToJoin(final String channelToJoin) {
-			this.channelToJoin = channelToJoin;
-		}
-
-		public String getMatrixChannelName() {
-			return matrixChannelName;
-		}
-
-		public void setMatrixChannelName(final String matrixChannelName) {
-			this.matrixChannelName = matrixChannelName;
-		}
-
-		public String getMatrixUserName() {
-			return matrixUserName;
-		}
-
-		public void setMatrixUserName(final String matrixUserName) {
-			this.matrixUserName = matrixUserName;
-		}
-
 		public String botPassword;
 		public String ircUserName;
 		public String ircHostName;
@@ -298,9 +233,11 @@ public class App {
 		final var listener = new AppListener(client, config, server);
 		final var ircConfig = new Configuration.Builder().setName(config.ircUserName)
 			.addServer(config.ircHostName)
+			.setAutoReconnect(true)
 			.addAutoJoinChannel(config.channelToJoin).addListener(listener).buildConfiguration();
 		final var bot = new PircBotX(ircConfig);
 		listener.setBot(bot);
-		bot.startBot();
+		while(true)
+			bot.startBot();
 	}
 }
