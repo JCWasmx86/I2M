@@ -237,7 +237,9 @@ public class App {
 			.addAutoJoinChannel(config.channelToJoin).addListener(listener).buildConfiguration();
 		final var bot = new PircBotX(ircConfig);
 		listener.setBot(bot);
-		while(true)
+		while(true) {
+			listener.setBot(bot);
 			bot.startBot();
+		}
 	}
 }
